@@ -2,7 +2,7 @@ name: Sync upstream
 
 on:
   schedule:
-    - cron: '0 1 * * *'
+    - cron: '0 1 * * *' # Runs at 01:00
   workflow_dispatch:
 
 permissions:
@@ -24,5 +24,6 @@ jobs:
           git remote add upstream https://github.com/xiaoyang111222/cn-math-taxonomy.git
           git fetch upstream
           git checkout main
-          git merge --ff-only upstream/main
+          # fork 的 main 上有 workflow 文件这一个上游没有的提交，所以上游一更新就不是 fast-forward，必须用普通 merge（产生一个合并提交）；上游从不改 workflow 文件，不会冲突，也不会搞坏仓库。
+          git merge upstream/main
           git push origin main
