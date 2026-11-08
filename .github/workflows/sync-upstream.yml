@@ -15,6 +15,7 @@ jobs:
       - name: Checkout fork
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.SYNC_PAT }}
           fetch-depth: 0
 
       - name: Merge upstream main
@@ -24,6 +25,6 @@ jobs:
           git remote add upstream https://github.com/xiaoyang111222/cn-math-taxonomy.git
           git fetch upstream
           git checkout main
-          # fork 的 main 上有 workflow 文件这一个上游没有的提交，所以上游一更新就不是 fast-forward，必须用普通 merge（产生一个合并提交）；上游新增的 workflow 文件（如 ci.yml）会随合并带进来，推送它们需要 workflows 权限；合并不会和本站的 sync-upstream.yml 冲突，也不会搞坏仓库。
+          # fork 的 main 上有 workflow 文件这一个上游没有的提交，所以上游一更新就不是 fast-forward，必须用普通 merge（产生一个合并提交）；上游新增的 workflow 文件（如 ci.yml）会随合并带进来，推送改用 SYNC_PAT 这个细粒度令牌（仅限本仓库，Contents 写 + Workflows 写），因为 workflow 文件里没有合法权限能给默认机器人令牌开这个口；合并不会和本站的 sync-upstream.yml 冲突，也不会搞坏仓库。
           git merge upstream/main
           git push origin main
