@@ -3,7 +3,7 @@
  * 改了 SHELL 或 DATA 列表、或数据结构变了，就把 VERSION 加一。 */
 'use strict';
 
-var VERSION = 'v32';
+var VERSION = 'v40';
 var CACHE = 'cnm-pwa-' + VERSION;
 var SCOPE = self.registration.scope;
 
@@ -32,6 +32,10 @@ var SHELL = [
   'finals/',
   'finals/finals.js',
   'finals/finals.css',
+  'english/',
+  'english/app.js',
+  'english/scenes.js',
+  'english/style.css',
   'assets/site.css',
   'assets/explore.css',
   'assets/home.js',
@@ -41,6 +45,10 @@ var SHELL = [
   'assets/children.js',
   'assets/blindspots.js',
   'assets/wrongbook.js',
+  'assets/english.js',
+  'assets/activity.js',
+  'assets/account.js',
+  'assets/sync.js',
   'assets/pwa.js',
   'assets/pwa.css',
   'assets/vendor/cytoscape.min.js',
@@ -57,9 +65,14 @@ var DATA = [
   'data/topics.json',
   'data/dependencies.json',
   'data/cn-curriculum-standards.json',
-  'data/questions.json',
-  'data/id-aliases.json'
+  'data/questions/index.json',
+  'data/questions/math.json',
+  'data/id-aliases.json',
+  'data/english/days.json'
 ];
+/* 题库按学科分文件（data/questions/<学科>.json，含思想政治 politics.json）：安装时只预缓存索引和默认学科数学，
+ * 其余学科第一次进入时由下面的 .json 规则（先用缓存、后台更新）缓存，之后可离线。
+ * 旧的整包 data/questions.json 不再预缓存、不再有页面请求它。 */
 
 function abs(path) { return new URL(path, SCOPE).href; }
 
